@@ -16,6 +16,7 @@ public class MainActivity extends ActionBarActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mPrevButton;
     private TextView mQuestionTextView;
 
     //Geography Questions
@@ -84,6 +85,20 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                updateQuestion();
+            }
+        });
+
+        mPrevButton = (Button)findViewById(R.id.prev_button);
+        mPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mCurrentIndex != 0) {
+                    mCurrentIndex = mCurrentIndex - 1;
+                }
+                else {
+                    mCurrentIndex = mQuestionBank.length - 1;
+                }
                 updateQuestion();
             }
         });
