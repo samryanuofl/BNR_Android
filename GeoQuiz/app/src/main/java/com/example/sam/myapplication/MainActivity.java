@@ -55,13 +55,13 @@ public class MainActivity extends ActionBarActivity {
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
         updateQuestion();
 
-//        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-//                updateQuestion();
-//            }
-//        });
+        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                updateQuestion();
+            }
+        });
 
         mTrueButton = (Button)findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
