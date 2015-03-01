@@ -1,5 +1,6 @@
 package com.example.sam.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ public class MainActivity extends ActionBarActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
 
     private static final String TAG = "QuizActivity";
@@ -34,6 +36,7 @@ public class MainActivity extends ActionBarActivity {
     private int mCurrentIndex = 0;
 
     private void updateQuestion() {
+//        Log.d(TAG, "Updateing question text for question #" + mCurrentIndex, new Exception());
         int question = mQuestionBank[mCurrentIndex].getmQuestion();
         mQuestionTextView.setText(question);
     }
@@ -86,6 +89,16 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
+            }
+        });
+
+        mCheatButton = (Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start CheatActivity
+                Intent i = new Intent(MainActivity.this, CheatActivity.class);
+                startActivity(i);
             }
         });
     }
