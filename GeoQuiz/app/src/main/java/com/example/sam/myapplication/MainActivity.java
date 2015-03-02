@@ -24,6 +24,8 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
 
+    private boolean mIsCheater;
+
     //Geography Questions
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse(R.string.question_oceans, true),
@@ -45,7 +47,9 @@ public class MainActivity extends ActionBarActivity {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].ismTrueQuestion();
         int messageResId = 0;
 
-        if (userPressedTrue == answerIsTrue) {
+        if(mIsCheater) {
+            messageResId = R.string.judgment_toast;
+        } else if (userPressedTrue == answerIsTrue) {
             messageResId = R.string.correct_toast;
         } else {
             messageResId = R.string.incorrect_toast;
@@ -88,6 +92,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -98,7 +103,9 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // Start CheatActivity
                 Intent i = new Intent(MainActivity.this, CheatActivity.class);
-                startActivity(i);
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].ismTrueQuestion();
+                i.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
+                startActivityForResult(i, 0);
             }
         });
     }
@@ -160,5 +167,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data == null) {
+            return;
+        }
+
+        mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
     }
 }
